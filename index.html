@@ -49,7 +49,7 @@ body{font-family:"Noto Sans SC",system-ui,-apple-system,sans-serif;background:va
 .section-center{text-align:center}
 .section-center .section-desc{margin-left:auto;margin-right:auto}
 .brand-section{background:var(--bg2);position:relative;overflow:hidden}
-.brand-section .brand-bg{position:absolute;inset:0;z-index:0;opacity:0.3;pointer-events:none}
+.brand-section .brand-bg{position:absolute;inset:0;z-index:0;opacity:0.6;pointer-events:none}
 .brand-section .section{position:relative;z-index:1}
 .brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .brand-text p{font-size:15px;color:var(--text-muted);line-height:2;margin-bottom:20px}
@@ -172,7 +172,7 @@ body{font-family:"Noto Sans SC",system-ui,-apple-system,sans-serif;background:va
 <script type="importmap">
 {
   "imports": {
-    "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/dist/ogl.mjs"
+    "ogl": "https://cdn.jsdelivr.net/npm/ogl@1.0.11/src/index.js"
   }
 }
 </script></head>
@@ -217,7 +217,10 @@ varying vec2 vUv;
 vec4 effect(vec2 s,vec2 c){float pxl=length(s.xy)/uPixelFilter;vec2 uv=(floor(c.xy*(1.0/pxl))*pxl-0.5*s.xy)/length(s.xy)-uOffset;float uvl=length(uv);float spd=(uSpinRotation*uSpinEase*0.2);if(uIsRotate){spd=iTime*spd;}spd+=302.2;float mi=(uMouse.x*2.0-1.0);spd+=mi*0.1;float npa=atan(uv.y,uv.x)+spd-uSpinEase*20.0*(uSpinAmount*uvl+(1.0-uSpinAmount));vec2 md=(s.xy/length(s.xy))/2.0;uv=(vec2(uvl*cos(npa)+md.x,uvl*sin(npa)+md.y)-md);uv*=30.0;float bs=iTime*uSpinSpeed;spd=bs+mi*2.0;vec2 uv2=vec2(uv.x+uv.y);for(int i=0;i<5;i++){uv2+=sin(max(uv.x,uv.y))+uv;uv+=0.5*vec2(cos(5.1123314+0.353*uv2.y+spd*0.131121),sin(uv2.x-0.113*spd));uv-=cos(uv.x+uv.y)-sin(uv.x*0.711-uv.y);}float cm=(0.25*uContrast+0.5*uSpinAmount+1.2);float pr=min(2.0,max(0.0,length(uv)*0.035*cm));float c1p=max(0.0,1.0-cm*abs(1.0-pr));float c2p=max(0.0,1.0-cm*abs(pr));float c3p=1.0-min(1.0,c1p+c2p);float lt=(uLighting-0.2)*max(c1p*5.0-4.0,0.0)+uLighting*max(c2p*5.0-4.0,0.0);return(0.3/uContrast)*uColor1+(1.0-0.3/uContrast)*(uColor1*c1p+uColor2*c2p+vec4(c3p*uColor3.rgb,c3p*uColor1.a))+lt;}
 void main(){vec2 uv=vUv*iResolution.xy;gl_FragColor=effect(iResolution.xy,uv);}`;
 
+console.log('Balatro: Initializing...');
 const container = document.getElementById('brandBg');
+if (!container) { console.error('Balatro: Container not found'); }
+else { console.log('Balatro: Container found, size:', container.offsetWidth, 'x', container.offsetHeight); }
 if (!container) throw new Error('Container not found');
 
 const renderer = new Renderer({ alpha: true });
@@ -467,6 +470,7 @@ caseItems.forEach(item=>{item.style.transition="opacity 0.3s ease"});
 </script>
 </body>
 </html>
+
 
 
 
